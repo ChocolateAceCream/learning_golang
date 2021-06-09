@@ -78,6 +78,7 @@ func main() {
 	fmt.Println("after change, s is ", s)
 	fmt.Println("after change, s5 is ", s5)
 	//anonymous struct
+	//use case: generate a JSON res for a service call
 	fmt.Println("-------------anonymous struct-----------")
 	singleton := struct{ name string }{name: "john Wick"}
 	fmt.Println("anonymous struct is ", singleton)
