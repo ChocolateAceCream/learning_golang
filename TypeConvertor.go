@@ -5,7 +5,7 @@ import (
 	"strconv"
 )
 
-func f() {
+func main() {
 	var i int = 32
 	var j float32 = float32(i)
 	fmt.Printf("%v, %f, %T", j, j, j)
@@ -62,6 +62,12 @@ func f() {
 	fmt.Printf("%v\n", s+s2) // string contamination
 	bytes := []byte(s)       // convert string into collection of bytes(ea)
 	fmt.Printf("%v, %T\n", bytes, bytes)
+
+	//string formatting
+	fmt.Println("stirng formatting wiht fmt.Sprintf")
+	const name, age = "kim", 22
+	f1 := fmt.Sprintf("%s is %d years old", name, age)
+	fmt.Println(f1)
 
 	//rune
 	fmt.Println("\n------rune-----------")
