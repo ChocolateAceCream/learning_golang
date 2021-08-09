@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 var (
 	a int     = 123
@@ -31,6 +33,10 @@ func main() {
 	fmt.Printf("%v, %T", c, c)
 
 	fmt.Println("\n---------test-------- ")
-	str := "asdf"
-	fmt.Println(str[1:2])
+	str := "aaaaabbcccd"
+	m2 := make(map[string]int)
+	for _, v := range str {
+		m2[string(v)] += 1
+	}
+	fmt.Println(m2)
 }

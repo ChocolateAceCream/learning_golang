@@ -26,4 +26,19 @@ func main() {
 	fmt.Println(len2)
 	fmt.Println(len3)
 	fmt.Println(len4)
+
+	//strings.Index(str, substr) int
+	//Index returns the index of the first instance of substr in s, or -1 if substr is not present in s.
+	fmt.Println("------strings.Index------")
+	str = "asdfzx"
+	fmt.Println(strings.Index(str, "d"))
+	fmt.Println(strings.Index(str, "asd"))
+	fmt.Println(strings.Index(str, "aasd")) //-1
+
+	//func LastIndex(s, substr string) int
+	//LastIndex returns the index of the last instance of substr in s, or -1 if substr is not present in s.
+	fmt.Println("------strings.LastIndex------")
+	str = "asdfdsa"
+	fmt.Println(strings.LastIndex(str, "d"))
+	fmt.Println(strings.LastIndex(str, "aasd")) //-1
 }

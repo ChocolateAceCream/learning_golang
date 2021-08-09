@@ -1,3 +1,9 @@
+/*
+问题描述：
+使用两个goroutine交替打印序列，一个goroutine打印数字，另一个打印字母，最中效果如下
+12AB34CD56EF78GH910IJ1112KL1314MN1516OP1718QR1920ST2122UV2324W
+*/
+
 package main
 
 import (
