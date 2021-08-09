@@ -15,13 +15,26 @@ type order struct {
 //Value  {456 56}
 func createOrder(query interface{}) {
 	fmt.Println("---------------start--------")
+	var x float64 = 3.4
+
+	/*
+		When we call reflect.TypeOf(x), x is first stored in an empty interface, which is then passed as the argument; reflect.TypeOf unpacks that empty interface to recover the type information.
+	*/
+	v := reflect.ValueOf(x)
+	fmt.Println("---------------float 64--------")
+	fmt.Println("type:", v.Type())
+	fmt.Println("kind is float64:", v.Kind() == reflect.Float64)
+	fmt.Println("value:", v.Float())
+	fmt.Println("value:", v.String())
+
+	fmt.Println("---------------query--------")
 	t := reflect.TypeOf(query)
 	k := t.Kind()
 	fmt.Println("type, ", t)
 	fmt.Println("kind, ", k)
 	// Type represents the actual type of the interface{}, in this case main.Order
 	// Kind represents the specific kind of the type. In this case, it's a struct.
-	v := reflect.ValueOf(query)
+	v = reflect.ValueOf(query)
 	fmt.Println("value, ", v)
 
 	// NumField() method returns the number of fields in a struct

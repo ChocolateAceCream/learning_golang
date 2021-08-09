@@ -14,10 +14,14 @@ func main() {
 	//then the for loop will turn to a while loop
 	i := 0
 	fmt.Println("----i----")
-	for i < 5 {
+	for {
 		i++
+		if i == 3 {
+			fmt.Println("----return---")
+			return
+		}
 	}
-	fmt.Println(i)
+	fmt.Println("-------i:", i)
 
 	//break is used to jump out of the nearest loop(only that loop), in this case, the infinite loop
 	//if that loop is wrapped by other loops, then other loops will continue their iteration

@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sync"
 	"time"
 )
 
@@ -17,6 +18,8 @@ type logEntry struct {
 	message   string
 }
 
+var wg = sync.WaitGroup{}
+
 var logCh = make(chan logEntry, 50)
 
 //empty struct means no memory allocation assigned to this struct
@@ -26,17 +29,26 @@ var doneCh = make(chan struct{})
 func main() {
 	go logger()
 	//alternative, we use a deferred function to close the channel
+	wg.Add(2)
 	defer func() {
 		close(logCh)
 	}()
 
-	logCh <- logEntry{time.Now(), logInfo, "app is starting"}
-	logCh <- logEntry{time.Now(), logInfo, "app is shutting down"}
-	time.Sleep(100 * time.Millisecond)
+	go func() {
+		time.Sleep(1 * time.Second)
+		logCh <- logEntry{time.Now(), logInfo, "app is starting"}
+		wg.Done()
+	}()
+	go func() {
+		time.Sleep(2 * time.Second)
+		logCh <- logEntry{time.Now(), logInfo, "app is shutting down"}
+		doneCh <- struct{}{}
+		wg.Done()
+	}()
+	// time.Sleep(100 * time.Millisecond)
 
 	//pass a struct{} with empty elements
-	doneCh <- struct{}{}
-
+	wg.Wait()
 }
 
 //the app shutdown as long as the last statement of main func() finished execution, every resources are cleaned,
@@ -48,7 +60,8 @@ func logger() {
 		case entry := <-logCh:
 			fmt.Printf("%v -[%v]%v\n", entry.time.Format("2006-01-02T15:04:05"), entry.serverity, entry.message)
 		case <-doneCh:
-			break
+			fmt.Printf("Done")
+			// break
 
 			/*alternatively, you can have a default statement to make select non-blocking
 			e.g.
@@ -56,6 +69,8 @@ func logger() {
 			what it does is when a msg is ready on either channels, select will execute the that code path, if not, then go to deafult block
 
 			without default statement, select is blocked forever until one msg comes in
+
+			P.S be careful when using default statement, sometimes it may cause the high CPU usage problem because if no msg goes into the channel, then default statement will always be executed.
 			*/
 		}
 	}

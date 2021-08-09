@@ -30,4 +30,7 @@ func main() {
 	fmt.Printf("%v, %T", b, b)
 	fmt.Printf("%v, %T", c, c)
 
+	fmt.Println("\n---------test-------- ")
+	str := "asdf"
+	fmt.Println(str[1:2])
 }
