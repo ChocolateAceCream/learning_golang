@@ -41,4 +41,15 @@ func main() {
 	str = "asdfdsa"
 	fmt.Println(strings.LastIndex(str, "d"))
 	fmt.Println(strings.LastIndex(str, "aasd")) //-1
+
+	// func Replace(s, old, new string, n int) string
+	//Replace returns a copy of the string s with the first n non-overlapping instances of old replaced by new.
+	// If old is empty, it matches at the beginning of the string and after each UTF-8 sequence, yielding up to k+1 replacements for a k-rune string.
+	// If n < 0, there is no limit on the number of replacements.
+	fmt.Println("------strings.Replace-------------")
+	str = "aa bb cc dd ee aa bb cc dd aa"
+	fmt.Println(strings.Replace(str, "aa", "AA", 1))
+	fmt.Println(strings.Replace(str, "aa", "AA", 2))
+	fmt.Println(strings.Replace(str, "aa", "AA", -1))
+	fmt.Println(strings.Replace(str, "", "AA", -1))
 }

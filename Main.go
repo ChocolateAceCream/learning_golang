@@ -33,10 +33,12 @@ func main() {
 	fmt.Printf("%v, %T", c, c)
 
 	fmt.Println("\n---------test-------- ")
-	str := "aaaaabbcccd"
-	m2 := make(map[string]int)
-	for _, v := range str {
-		m2[string(v)] += 1
+	r := 0
+	str := "12d"
+	for _, s := range str {
+		fmt.Printf("%T\n", s)
+		r = r*10 + int(s) - '0'
+		fmt.Println(r)
+		fmt.Println(r > 10)
 	}
-	fmt.Println(m2)
 }
