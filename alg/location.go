@@ -8,6 +8,58 @@
 
 package main
 
-func main() {
+import (
+	"fmt"
+	"unicode"
+)
 
+const (
+	Left = iota
+	Top
+	Right
+	Bottom
+)
+
+func main() {
+	x, y, z := move("R2(LF)", 0, 0, Top)
+	fmt.Printf("(%v, %v), facing %v", x, y, z)
+}
+
+func move(cmd string, x0, y0, z0 int) (x, y, z int) {
+	x, y, z = x0, y0, z0
+	count := 0
+	repeatCmd := ""
+	for _, s := range cmd {
+		switch {
+		case unicode.IsNumber(s):
+			count = count*10 + (int(s) - '0')
+		case s != '(' && s != ')' && count > 0:
+			repeatCmd = repeatCmd + string(s)
+		case s == ')':
+			for i := 0; i < count; i++ {
+				x, y, z = move(repeatCmd, x, y, z)
+			}
+			count = 0
+			repeatCmd = ""
+		case s == 'L':
+			z = (z - 1 + 4) % 4
+		case s == 'R':
+			z = (z + 1) % 4
+		case s == 'F':
+			if z == Top || z == Bottom {
+				y = y - z + 2
+			}
+			if z == Right || z == Left {
+				x = x + z - 1
+			}
+		case s == 'B':
+			if z == Top || z == Bottom {
+				y = y + z - 2
+			}
+			if z == Right || z == Left {
+				x = x - z + 1
+			}
+		}
+	}
+	return
 }

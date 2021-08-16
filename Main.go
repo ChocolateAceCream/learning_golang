@@ -10,6 +10,11 @@ var (
 	c float32 = 1.2312312
 )
 
+type Student struct {
+	id   int
+	name string
+}
+
 var shadowExample int = 1
 
 func main() {
@@ -33,12 +38,20 @@ func main() {
 	fmt.Printf("%v, %T", c, c)
 
 	fmt.Println("\n---------test-------- ")
-	r := 0
+	v1 := new(Student)
+	v1.name = "v1"
+	fmt.Println(v1)
+
+	v2 := Student{name: "v2"}
+	fmt.Println(v2)
+
 	str := "12d"
 	for _, s := range str {
-		fmt.Printf("%T\n", s)
-		r = r*10 + int(s) - '0'
-		fmt.Println(r)
-		fmt.Println(r > 10)
+		r := s - '0'
+		fmt.Printf("%v\n", r)
+		fmt.Printf("%T\n", r)
+		// r = r*10 + int(s) - '0'
+		// fmt.Println(r)
+		// fmt.Println(r > 10)
 	}
 }

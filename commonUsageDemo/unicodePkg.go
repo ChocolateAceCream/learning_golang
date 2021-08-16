@@ -10,6 +10,8 @@ func main() {
 	str2 := "a@@@AbBcC"
 	fmt.Println(isStringLetterOnly(str))
 	fmt.Println(isStringLetterOnly(str2))
+	s := "21"
+	fmt.Println(unicode.IsNumber(s))
 }
 
 func isStringLetterOnly(str string) bool {
