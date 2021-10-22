@@ -8,13 +8,13 @@ func Demo() {
 }
 
 type Node struct {
-	value interface{}
-	next  *Node
+	Value interface{}
+	Next  *Node
 }
 
 type List struct {
-	head *Node
-	tail *Node
+	Head *Node
+	Tail *Node
 }
 
 func InitList() *List {
@@ -24,52 +24,52 @@ func InitList() *List {
 
 func (l *List) AddFront(value interface{}) {
 	node := &Node{
-		value: value,
+		Value: value,
 	}
-	if l.head == nil {
-		l.head = node
-		l.tail = node
+	if l.Head == nil {
+		l.Head = node
+		l.Tail = node
 	} else {
-		node.next = l.head
-		l.head = node
+		node.Next = l.Head
+		l.Head = node
 	}
 	return
 }
 
 func (l *List) AddBack(value interface{}) {
 	node := &Node{
-		value: value,
+		Value: value,
 	}
-	if l.head == nil {
-		l.head = node
-		l.tail = node
+	if l.Head == nil {
+		l.Head = node
+		l.Tail = node
 	} else {
-		l.tail.next = node
-		l.tail = l.tail.next
+		l.Tail.Next = node
+		l.Tail = l.Tail.Next
 	}
 	return
 }
 
 func (l *List) PrintList() error {
 	fmt.Println("----start printing list---")
-	if l.head == nil {
+	if l.Head == nil {
 		return fmt.Errorf("----list is empty---")
 	}
-	current := l.head
-	for current.next != nil {
-		fmt.Printf("%v -> ", current.value)
-		current = current.next
+	current := l.Head
+	for current.Next != nil {
+		fmt.Printf("%v -> ", current.Value)
+		current = current.Next
 	}
-	fmt.Printf("%v\n", current.value)
+	fmt.Printf("%v\n", current.Value)
 	return nil
 }
 
 func (l *List) Size() int {
 	step := 0
-	c := l.head
+	c := l.Head
 	for c != nil {
 		step++
-		c = c.next
+		c = c.Next
 	}
 	return step
 
@@ -79,7 +79,7 @@ func (l *List) RemoveFront() {
 	if l.Size() < 1 {
 		fmt.Println("list is empty")
 	} else {
-		l.head = l.head.next
+		l.Head = l.Head.Next
 	}
 }
 
@@ -87,35 +87,35 @@ func (l *List) RemoveBack() {
 	if l.Size() < 1 {
 		fmt.Println("list is empty")
 	} else {
-		current := l.head
-		for current.next != l.tail {
-			current = current.next
+		current := l.Head
+		for current.Next != l.Tail {
+			current = current.Next
 		}
-		l.tail = current
+		l.Tail = current
 	}
 }
 
 func MergeList(l1 *List, l2 *List) *List {
 	result := InitList()
-	c1 := l1.head
-	c2 := l2.head
+	c1 := l1.Head
+	c2 := l2.Head
 	for c1 != nil && c2 != nil {
-		if c1.value.(int) > c2.value.(int) {
-			result.AddBack(c2.value)
-			c2 = c2.next
+		if c1.Value.(int) > c2.Value.(int) {
+			result.AddBack(c2.Value)
+			c2 = c2.Next
 		} else {
-			result.AddBack(c1.value)
-			c1 = c1.next
+			result.AddBack(c1.Value)
+			c1 = c1.Next
 		}
 	}
 	if c1 == nil {
-		fmt.Println("c2", c2.value)
-		result.tail.next = c2
+		fmt.Println("c2", c2.Value)
+		result.Tail.Next = c2
 	} else {
-		fmt.Println("c1", c1.value)
-		result.tail.next = c1
+		fmt.Println("c1", c1.Value)
+		result.Tail.Next = c1
 	}
-	result.tail = result.tail.next
+	result.Tail = result.Tail.Next
 	fmt.Println("---size---", result.Size())
 	return result
 }
