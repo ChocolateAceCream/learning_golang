@@ -1,0 +1,33 @@
+// usage: protoc test.proto --go_out=test
+
+
+syntax = "proto3";
+import "google/protobuf/any.proto";
+import "test.proto";
+
+option go_package = "./test"; //directory where output .pb.go file will go. Notice: this dir is nested inside the directory passed by --go_out flag 
+package test2;
+
+message SearchResponse {
+  repeated Result results = 1;
+  test.SearchResponse gg = 2;
+}
+
+message Result {
+  string url = 1;
+  string title = 2;
+  repeated string snippets = 3;
+  test.SearchResponse gg = 5;
+}
+
+message ErrorStatus {
+  string message = 1;
+  repeated google.protobuf.Any details = 2;
+
+  message SampleMessage {
+    oneof test_oneof {
+      string name = 4;
+      Result sub_message = 9;
+    }
+  }
+}

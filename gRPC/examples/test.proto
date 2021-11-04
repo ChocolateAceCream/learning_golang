@@ -1,0 +1,22 @@
+// usage: protoc test.proto --go_out=test
+
+
+syntax = "proto3";
+import "google/protobuf/any.proto";
+
+option go_package = "./test";
+package test;
+
+message SearchResponse {
+  google.protobuf.Any gg=43;
+  repeated Result results = 1;
+}
+
+message Result {
+  string url = 1;
+  string title = 2;
+  repeated string snippets = 3;
+  test.SearchResponse gg = 5;
+}
+
+
