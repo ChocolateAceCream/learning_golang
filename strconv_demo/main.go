@@ -59,5 +59,6 @@ func main() {
 	b16 := []byte("int (base 16):")
 	b16 = strconv.AppendInt(b16, -42, 16)
 	fmt.Println(string(b16))
+	fmt.Println(strconv.IntSize)
 
 }
