@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package tutorial.demo;
+
+
+/* .;pb :
+. means generate go file in current dir
+pb refers to the package name of generate go file
+*/
+option go_package = ".;pb";  
+
+message User {
+  enum gender {
+    MALE = 0;
+    FEMALE = 1;
+  }
+
+  string name = 1;
+}
+
+message Reply {
+  string message = 1;
+}
+
+service MessageSender {
+  rpc Send(User) returns (Reply) {}
+}
