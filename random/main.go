@@ -20,4 +20,6 @@ func main() {
 	fmt.Println(uuid)
 	rand64 := randomFloat(1, 10)
 	fmt.Println(rand64)
+	randIntn := rand.Intn(2)
+	fmt.Println(randIntn)
 }
