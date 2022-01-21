@@ -5,6 +5,7 @@ import (
 	"gin/controllers"
 	"net/http"
 	"strings"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -13,7 +14,18 @@ func urlHandller(c *gin.Context) {
 	// name := c.Query("name") //if no query passed, then return empty string
 	name := c.Query("name")
 	// name := c.DefaultQuery("name", "default_name")
-	c.String(http.StatusOK, fmt.Sprintf("hello %s", name))
+	msg, flag := c.Get("timestamp")
+	if !flag {
+		fmt.Println("error: ", flag)
+	}
+	fmt.Println("msg from middleWare: ", msg)
+	var resp struct {
+		Name string
+		Time string
+	}
+	resp.Name = name
+	resp.Time = time.Now().String()
+	c.JSON(http.StatusOK, resp)
 }
 
 func apiHandller(c *gin.Context) {
@@ -40,10 +52,17 @@ func SetupRouter() *gin.Engine {
 	// when uploading files, limit the max memory usage to 8MB (not the max file size)
 	r.MaxMultipartMemory = int64(maxSize)
 
+	// apply global middle ware
+	r.Use(MiddleWare())
+
+	// optional you can apply local middle ware for certain endpoint
+	// v2.POST("/form", MiddleWare(), formHandler)
+
 	RouteLoader(r)
 	//create route group to store similar routes
 	v2 := r.Group("/v2")
 	{
+		// v2.POST("/form", formHandler)
 		v2.POST("/form", formHandler)
 		v2.POST("/uploader", controllers.FileUploader)
 		v2.POST("/uploaderV2", controllers.FileUploaderV2)
