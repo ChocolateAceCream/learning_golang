@@ -44,8 +44,7 @@ func formHandler(c *gin.Context) {
 }
 
 // *gin.Engine is the thing that can be passed around
-func SetupRouter() *gin.Engine {
-	r := gin.Default()
+func SetupRouter(r *gin.Engine) {
 	// 20 times (8 times 2 ), 2^10 is 1024, so this means 8MB
 	maxSize := 8 << 20
 
@@ -58,7 +57,9 @@ func SetupRouter() *gin.Engine {
 	// optional you can apply local middle ware for certain endpoint
 	// v2.POST("/form", MiddleWare(), formHandler)
 
+	//load router endpoints, basically wrapper over the code block below
 	RouteLoader(r)
+
 	//create route group to store similar routes
 	v2 := r.Group("/v2")
 	{
@@ -68,5 +69,4 @@ func SetupRouter() *gin.Engine {
 		v2.POST("/uploaderV2", controllers.FileUploaderV2)
 		v2.POST("/multiFilesUploader", controllers.MultiFilesUploader)
 	}
-	return r
 }
