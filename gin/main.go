@@ -22,16 +22,21 @@ func Init() *gin.Engine {
 
 	// make sure gin.Default() is executed after init logger
 	r := gin.Default()
+
+	//init router
+	router.SetupRouter(r)
+
+	// init redis session store
+	// services.SetupSession(r)
 	return r
 }
 
 func main() {
 
 	r := Init()
-	router.SetupRouter(r)
 
 	if err := r.Run(); err != nil {
-		fmt.Println("startup service failed, err:%v\n", err)
+		fmt.Printf("startup service failed, err:%v\n", err)
 	}
-	// r.Run(":8000")
+	r.Run(":3000")
 }

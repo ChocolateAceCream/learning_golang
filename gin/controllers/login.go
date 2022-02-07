@@ -2,7 +2,9 @@ package controllers
 
 import (
 	"fmt"
+	"gin/services"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -35,6 +37,11 @@ func Login(r *gin.Context) {
 		r.JSON(http.StatusBadRequest, gin.H{"errorMsg": "not authorized"})
 		return
 	}
+	// redisClient.Set(ctx, "aasd", 123, 30*time.Second)
+	services.RedisClient().Set(r, "username", parsedQuery.User, 30*time.Second)
+	// session := sessions.DefaultMany(r, "gin")
+	// session := sessions.
+	// session.Set("id", 123456)
 	r.JSON(http.StatusOK, gin.H{"status": "200"})
 }
 
