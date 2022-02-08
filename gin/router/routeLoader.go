@@ -15,6 +15,7 @@ func RouteLoader(r *gin.Engine) {
 		v1.GET("/user", urlHandller)
 		v1.POST("/login/", controllers.Login)
 		v1.GET("/info/:id", controllers.GetInfo)
+		v1.GET("/session", controllers.SessionDemo)
 
 		// redirect request
 		v1.GET("/baidu", func(c *gin.Context) {

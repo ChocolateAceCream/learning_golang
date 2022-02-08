@@ -2,8 +2,10 @@ package controllers
 
 import (
 	"fmt"
+	"gin/middleware"
 	"gin/services"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -14,49 +16,75 @@ type LoginQuery struct {
 	Password string `form:"passwd" json:"password" uri:"pw" xml:"password" binding:"required"`
 }
 
-func Login(r *gin.Context) {
+func Login(c *gin.Context) {
 	var parsedQuery LoginQuery
 
 	// request with body in JSON format
 	//ShouldBindJSON() will bind json from request body into parsedQuery obj
-	// if err := r.BindJSON(&parsedQuery); err != nil {
-	// 	r.JSON(http.StatusBadRequest, gin.H{"errorMsg": err.Error()})
+	// if err := c.BindJSON(&parsedQuery); err != nil {
+	// 	c.JSON(http.StatusBadRequest, gin.H{"errorMsg": err.Error()})
 	// 	return
 	// }
 
 	// request with body in form format
 	// Bind() will bind form query from request body into parsedQuery obj
-	if err := r.Bind(&parsedQuery); err != nil {
-		r.JSON(http.StatusBadRequest, gin.H{"errorMsg": err.Error()})
+	if err := c.Bind(&parsedQuery); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"errorMsg": err.Error()})
 		return
 	}
 
 	fmt.Println("----- username----", parsedQuery.User)
 	fmt.Println("----- Password----", parsedQuery.Password)
 	if parsedQuery.User != "admin" || parsedQuery.Password != "123qwe" {
-		r.JSON(http.StatusBadRequest, gin.H{"errorMsg": "not authorized"})
+		c.JSON(http.StatusBadRequest, gin.H{"errorMsg": "not authorized"})
 		return
 	}
-	// redisClient.Set(ctx, "aasd", 123, 30*time.Second)
-	services.RedisClient().Set(r, "username", parsedQuery.User, 30*time.Second)
-	// session := sessions.DefaultMany(r, "gin")
-	// session := sessions.
-	// session.Set("id", 123456)
-	r.JSON(http.StatusOK, gin.H{"status": "200"})
+	services.GetRedisClient().Set(c, "username", parsedQuery.User, 30*time.Second)
+
 }
 
 // GET localhost:3000/v1/info/1?username=admin&passwd=123qwe
-func GetInfo(r *gin.Context) {
+func GetInfo(c *gin.Context) {
 	var parsedQuery LoginQuery
-	id := r.Param("id")
+	id := c.Param("id")
 	fmt.Println("----- id----", id)
-	if err := r.BindQuery(&parsedQuery); err != nil {
+	if err := c.BindQuery(&parsedQuery); err != nil {
 		fmt.Println("----- parsedQuery----", parsedQuery)
-		r.JSON(http.StatusBadRequest, gin.H{"errorMsg": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"errorMsg": err.Error()})
 	}
 	if parsedQuery.User != "admin" || parsedQuery.Password != "123qwe" {
-		r.JSON(http.StatusBadRequest, gin.H{"errorMsg": "not authorized"})
+		c.JSON(http.StatusBadRequest, gin.H{"errorMsg": "not authorized"})
 		return
 	}
-	r.JSON(http.StatusOK, gin.H{"status": "200", "from": "getinfo"})
+	c.JSON(http.StatusOK, gin.H{"status": "200", "from": "getinfo"})
+}
+
+func SessionDemo(c *gin.Context) {
+	// session set demo
+	session := middleware.GetSession(c)
+	err := session.Set("aaa", "aaaaa")
+	if err != nil {
+		fmt.Printf("err: ", err)
+	}
+
+	// session get bey key demo
+	str, err := session.Get("1644304326")
+	if err != nil {
+		fmt.Printf("err: ", err)
+	}
+
+	// session remove by key demo
+	err = session.Remove("aaa")
+	if err != nil {
+		fmt.Printf("err: ", err)
+	}
+	fmt.Println("---get session -----", str)
+
+	for i := 0; i < 100; i++ {
+		go func(index int) {
+			session.Set(strconv.Itoa(index), index)
+		}(i)
+	}
+
+	c.JSON(http.StatusOK, gin.H{"status": "200"})
 }

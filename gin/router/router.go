@@ -3,6 +3,7 @@ package router
 import (
 	"fmt"
 	"gin/controllers"
+	"gin/middleware"
 	"net/http"
 	"strings"
 	"time"
@@ -52,7 +53,7 @@ func SetupRouter(r *gin.Engine) {
 	r.MaxMultipartMemory = int64(maxSize)
 
 	// apply global middle ware
-	r.Use(MiddleWare())
+	r.Use(middleware.GetMiddleware()...)
 
 	// optional you can apply local middle ware for certain endpoint
 	// v2.POST("/form", MiddleWare(), formHandler)

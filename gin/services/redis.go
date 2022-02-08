@@ -39,7 +39,8 @@ func newRedisClient() {
 	// currentClient.Set(ctx, "gbg", 123, 30*time.Second)
 }
 
-func RedisClient() *redis.Client {
+// using sync.once to only init redis client once
+func GetRedisClient() *redis.Client {
 	if currentClient == nil {
 		once.Do(func() { newRedisClient() })
 	}
