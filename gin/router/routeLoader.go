@@ -2,6 +2,7 @@ package router
 
 import (
 	"gin/controllers"
+	"gin/middleware"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -15,7 +16,7 @@ func RouteLoader(r *gin.Engine) {
 		v1.GET("/user", urlHandller)
 		v1.POST("/login/", controllers.Login)
 		v1.GET("/info/:id", controllers.GetInfo)
-		v1.GET("/session", controllers.SessionDemo)
+		v1.GET("/session", middleware.SessionMiddleware(), controllers.SessionDemo)
 
 		// redirect request
 		v1.GET("/baidu", func(c *gin.Context) {

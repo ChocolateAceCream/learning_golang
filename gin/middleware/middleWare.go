@@ -10,7 +10,7 @@ import (
 func GetMiddleware() []gin.HandlerFunc {
 	m := []gin.HandlerFunc{
 		MiddlewareHandler,
-		SessionHandler,
+		// SessionHandler,
 	}
 	return m
 }

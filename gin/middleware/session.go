@@ -28,6 +28,11 @@ var secure = false
 var httpOnly = true
 var path = "/"
 
+// return middleware handler function, so it can be applied locally for certain endpoint
+func SessionMiddleware() gin.HandlerFunc {
+	return SessionHandler
+}
+
 // middleware executed before actual logic of route handler function
 func SessionHandler(c *gin.Context) {
 	// c.Cookie() return the cookie value fetched with cookieName, then use that value to search redis
