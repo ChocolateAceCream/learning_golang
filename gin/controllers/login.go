@@ -59,6 +59,30 @@ func GetInfo(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"status": "200", "from": "getinfo"})
 }
 
+func LockDemo(c *gin.Context) {
+	ip := c.ClientIP()
+	fmt.Println("------ip---", ip)
+	opts := services.LockOptions{
+		Attempts:        10,
+		Ip:              ip,
+		Duration:        10 * time.Second,
+		EndPoint:        "LockDemo",
+		BlockedDuration: 5 * time.Second,
+	}
+	rateLimiter, _ := services.RateLimiter(c, opts)
+
+	c.Header("Content-Type", "application/json")
+	if rateLimiter.Block {
+		c.Writer.WriteHeader(http.StatusTooManyRequests)
+		timeLeft := float32(rateLimiter.TimeLeft) / float32(time.Microsecond)
+		c.Writer.Write([]byte(fmt.Sprintf("You reached the limit, come back after %vms", timeLeft)))
+		return
+	}
+	c.Writer.WriteHeader(http.StatusOK)
+	attemptsLeft := strconv.Itoa(rateLimiter.AttemptsLeft)
+	c.Writer.Write([]byte("Attempts Left: " + attemptsLeft))
+}
+
 func SessionDemo(c *gin.Context) {
 	// session set demo
 	session := middleware.GetSession(c)
