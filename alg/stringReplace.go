@@ -42,7 +42,7 @@ func main() {
 // 	return true, strings.Join(s, "")
 // }
 
-alternatively, we can use strings.Replace(str, " ", "%20", -1) method, but this approach is slower
+// alternatively, we can use strings.Replace(str, " ", "%20", -1) method, but this approach is slower
 func replaceString(str string) (bool, string) {
 	s := []rune(str)
 	if len(s) > 1000 {
