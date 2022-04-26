@@ -25,8 +25,10 @@ func RateLimiter(c *gin.Context, opts LockOptions) (LockResult, error) {
 	lockName := opts.Ip + ":" + opts.EndPoint
 	blockedKey := "isBlocked:" + lockName
 	lock := GetLock()
-	lockId := lock.AcquireLock(c, lockName, 5*time.Second) // attemp to acquire a lock which has expiration time of 5 seconds
-	defer lock.Release(c, lockName, lockId)
+
+	// example usage of lock acquire and lock release
+	// lockId := lock.AcquireLock(c, lockName, 5*time.Second) // attemp to acquire a lock which has expiration time of 5 seconds
+	// defer lock.Release(c, lockName, lockId)
 	key := "key:" + lockName // unique key for
 	getCmd := lock.redis.Get(c, key)
 	AttemptsLeft, _ := getCmd.Int()
