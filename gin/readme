@@ -1,0 +1,5 @@
+# to start server
+gin run main.go
+
+# to run test
+go test xxx_test.go
