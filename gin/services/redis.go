@@ -16,12 +16,23 @@ var once = sync.Once{}
 var currentClient *redis.Client
 
 type Lock struct {
-	redis *redis.Client
+	redis       *redis.Client
+	key         string
+	expiration  time.Duration
+	checkCancel chan bool
+	lockId      string
+	mu          sync.Mutex
 }
 
-func GetLock() *Lock {
+func GetLock(lockname string, expiration time.Duration) *Lock {
+	lockId := utils.RandToken(10)
+
 	return &Lock{
-		redis: GetRedisClient(),
+		redis:      GetRedisClient(),
+		key:        "lock:" + lockname,
+		expiration: expiration,
+		lockId:     lockId,
+		mu:         sync.Mutex{},
 	}
 }
 
@@ -63,14 +74,11 @@ func GetRedisClient() *redis.Client {
 // return lockId which used to identify locks
 // this lock is blocked lock.
 /* usage example:
-lock := GetLock()
-// lockId := lock.AcquireLock(c, lockName, 5*time.Second) // attemp to acquire a lock which has expiration time of 5 seconds
+lock := GetLock(lockName, 5*time.Second)
+// lockId := lock.AcquireLock(c) // attemp to acquire a lock which has expiration time of 5 seconds
 // defer lock.Release(c, lockName, lockId)
 */
-func (lock *Lock) AcquireLock(c *gin.Context, locakname string, expiration time.Duration) string {
-	lockId := utils.RandToken(10)
-	key := "lock:" + locakname
-
+func (lock *Lock) AcquireLock(c *gin.Context) string {
 	// set tick interval to 100ns, which try to acquire lock every 100ns
 	tick := time.NewTicker(time.Nanosecond * 100)
 
@@ -86,16 +94,65 @@ func (lock *Lock) AcquireLock(c *gin.Context, locakname string, expiration time.
 			return ""
 
 		case <-tick.C:
-			setNxCmd := lock.redis.SetNX(c, key, lockId, expiration)
+			setNxCmd := lock.redis.SetNX(c, lock.key, lock.lockId, lock.expiration)
 			if ok, _ := setNxCmd.Result(); ok {
-				return lockId
+				go lock.checkLockIsRelease()
+				return lock.lockId
 			}
 		}
 	}
 }
 
-func (lock *Lock) Release(c *gin.Context, locakname, lockId string) bool {
-	key := "lock:" + locakname
+// check if lock is released, if not, renew lock
+func (lock *Lock) checkLockIsRelease() {
+	for {
+		duration := time.Millisecond * time.Duration(lock.expiration.Milliseconds()-lock.expiration.Milliseconds()/10)
+		checkCxt, _ := context.WithTimeout(context.Background(), duration)
+		lock.checkCancel = make(chan bool)
+		select {
+		case <-checkCxt.Done():
+			// keep renewing lock until lock got released
+			isLockRenewed := lock.renewLock()
+			if !isLockRenewed {
+				return
+			}
+		case <-lock.checkCancel:
+			fmt.Println("----lock has been released----")
+			return
+		}
+
+	}
+}
+
+// renew lock, if success return true, otherwise return false
+func (lock *Lock) renewLock() bool {
+	lock.mu.Lock()
+	defer lock.mu.Unlock()
+	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+	res, err := lock.redis.Exists(ctx, lock.key).Result()
+	cancel()
+	if err != nil {
+		return false
+	}
+	if res == 1 {
+		ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
+		ok, err := lock.redis.Expire(ctx, lock.key, lock.expiration).Result()
+		cancel()
+		if err != nil {
+			return false
+		}
+		if ok {
+			fmt.Println("--- lock is renewed-----")
+			return true
+		}
+	}
+	return false
+
+}
+
+func (lock *Lock) Release(c *gin.Context) bool {
+	lock.mu.Lock()
+	defer lock.mu.Unlock()
 
 	// alternatively, we can use redis pipeline
 	// timer := time.NewTimer(50 * time.Second)
@@ -139,10 +196,16 @@ func (lock *Lock) Release(c *gin.Context, locakname, lockId string) bool {
 	`
 
 	script := redis.NewScript(luaScript)
-	result, err := script.Run(c, lock.redis, []string{key}, lockId).Result()
+	result, err := script.Run(c, lock.redis, []string{lock.key}, lock.lockId).Result()
 	fmt.Println("-----lock release-----", err)
 	if err == nil {
-		return result == 1 // 1: delete successful
+		if result.(int64) == 1 {
+			// lock released (key deleted successfully)
+			lock.checkCancel <- true
+			return true
+		} else {
+			return false
+		}
 	} else {
 		return false
 	}
