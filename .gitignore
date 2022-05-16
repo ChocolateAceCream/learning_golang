@@ -1,2 +1,5 @@
 gin/config.json
 gin.log
+
+gRPC/*
+gin/services/config.json

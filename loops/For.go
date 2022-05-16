@@ -88,4 +88,70 @@ Loop:
 	for k, v := range m {
 		fmt.Printf("value: %v, key: %v \n", v, k)
 	}
+
+}
+
+/*
+	P.S: the fact is: in each iteration of
+		for index, value := range xxx
+	index and value are re-assigned to new value (not re-created ). so take extra care when including index and value in  each iterations (especially in goroutine)
+*/
+// wrong example : the taks printed in goroutine is randomly, since task is bonded by its reference not its value
+func Process1(tasks []string) {
+	for _, task := range tasks {
+		// 启动协程并发处理任务
+		go func() {
+			fmt.Printf("Worker start process task: %s\n", task)
+		}()
+	}
+}
+
+// good example: bonding value, not reference
+func Process2(tasks []string) {
+	for _, task := range tasks {
+		go func(t string) {
+			fmt.Printf("Worker start process task: %s\n", t)
+		}(task)
+	}
+}
+
+type Tests struct {
+	name         string
+	input        int
+	expectOutput int
+}
+
+var tests = []struct {
+	name         string
+	input        int
+	expectOutput int
+}{}
+
+func Proces3() {
+	t := []Tests{
+		{
+			name:         "double 1 should got 2",
+			input:        1,
+			expectOutput: 2,
+		},
+		{
+			name:         "double 2 should got 4",
+			input:        2,
+			expectOutput: 4,
+		},
+	}
+
+	for _, test := range t {
+		//fix: declare another variable to replace loop variable explicitly
+		ts := test
+
+		go func(name string) {
+			fmt.Printf("Worker start process task: %s\n", name)
+
+			//name is bonded with test.value, however, input is not, so this may cause a problem
+			// fmt.Printf("Worker start process task: %c\n", test.input)
+			fmt.Printf("Worker start process task: %c\n", ts.input)
+
+		}(test.name)
+	}
 }

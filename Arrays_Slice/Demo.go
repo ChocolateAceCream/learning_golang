@@ -76,7 +76,11 @@ func main() {
 	fmt.Printf("length: %v\n", len(make))   //by default, slice was filled with 0, so length is 0
 	fmt.Printf("capacity: %v\n", cap(make)) // capacity is also 0
 
-	//append function (used to push element to slice)
+	/*
+		append function (used to push element to slice): always use its return value to assign back to original variables.
+		Reason: when bottom array of slice object is full, append() will return a new slice, so always remember to use the return value to re-assign the original slice object
+		p.s. append nil to slice with append() will not cause an error, so be careful when append nil to slice
+	*/
 	make = append(make, 12, 3, 4, 5) //append() can take multiple arguments, first is the slice it append to, the rest arguments are the value to be append
 	fmt.Println(make)
 	fmt.Printf("length: %v\n", len(make))
