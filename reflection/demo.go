@@ -60,6 +60,8 @@ func createOrder(query interface{}) {
 }
 
 func main() {
+	AlterReflectValue()
+	Convertor()
 	o := order{
 		id:   12,
 		name: "aa",
@@ -72,3 +74,20 @@ func main() {
 }
 
 // Reflection is a very powerful and advanced concept in Go and it should be used with care. It is very difficult to write clear and maintainable code using reflection. It should be avoided wherever possible and should be used only when absolutely necessary
+
+func Convertor() {
+	var x float64 = 3.4
+
+	v := reflect.ValueOf(x) //v is reflect.Value
+
+	// first convert v to interface, then use
+	var y float64 = v.Interface().(float64)
+	fmt.Println("value:", y)
+}
+
+func AlterReflectValue() {
+	var x float64 = 3.5
+	v := reflect.ValueOf(&x)
+	v.Elem().SetFloat(7.1)
+	fmt.Println("after changed value, x: ", v.Elem().Interface())
+}
