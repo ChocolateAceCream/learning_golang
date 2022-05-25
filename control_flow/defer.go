@@ -43,4 +43,23 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Printf("%s", robots)
+
+	fmt.Println("------DeferFunc()---start----")
+	result := DeferFunc()
+	fmt.Println(result)
+	fmt.Println("------DeferFunc()-end------")
+}
+
+/*
+actual execution order is that:
+1. result = i
+2. result ++
+3. return
+*/
+func DeferFunc() (result int) {
+	i := 1
+	defer func() {
+		result++
+	}()
+	return i
 }
