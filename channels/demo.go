@@ -9,6 +9,8 @@ import (
 var wg = sync.WaitGroup{}
 
 func main() {
+	ChannelIterator()
+
 	//channel can only be created with make(), and can only send one type of data to the channel
 	//unbuffered channel can only hold one data(in this case, one int variable)
 	//push to a occupied channel will result in deadlock
@@ -62,4 +64,29 @@ func main() {
 	}
 	wg.Wait()
 
+}
+
+func ChannelIterator() {
+	ch := make(chan int, 10)
+	ch <- 4
+	ch <- 1
+	ch <- 2
+	/*
+		- close channel so range function knows new more msgs are coming
+		- any funcs that have access to the channel can trigger the close func
+		- once channel closed, you cannot pass msg to that channel
+		- you cannot reopen a closed channel
+		- you cannot detect if channel is closed, except for looking for panic
+	*/
+	// close(ch)
+
+	// better separate ch write and read operations in different functions
+
+	go func() {
+		for val := range ch {
+			fmt.Println(val)
+		}
+	}()
+
+	fmt.Println("-----ChannelIterator done-----")
 }

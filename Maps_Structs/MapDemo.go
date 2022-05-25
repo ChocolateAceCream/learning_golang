@@ -5,6 +5,7 @@ import (
 )
 
 func main() {
+	MapIterator()
 
 	//initialize map
 	mapper := map[string]int{
@@ -53,4 +54,18 @@ func main() {
 	m3["add"] = 321
 	fmt.Println("m2 is:", m2)
 	fmt.Println("m3 is:", m3)
+}
+
+// number of iterations are not fixed since map store data using hash table, the key-value pair are randomly inserted, so dynamically change the targe might or might not affect the number of iterations.
+func MapIterator() {
+	mapper := map[string]string{
+		"CA": "12",
+		"BS": "32",
+	}
+	for key, val := range mapper {
+		fmt.Printf("key: %s, val: %s\n", key, val)
+		mapper[val] = key
+		mapper[val] = key + val
+	}
+	fmt.Println("----done map iterator---")
 }

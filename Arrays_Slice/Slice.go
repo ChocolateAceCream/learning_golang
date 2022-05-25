@@ -17,4 +17,25 @@ func main() {
 	// cannot use slice directly as second param in append()
 	s1 = append(s1, s2...)
 	fmt.Println(s1)
+	Iterator()
+
+}
+
+// when slice contains large potion of data and value is of type string, try to use slice[key] to retrieve the value in loop, because every loop iteration will re-assign to the value and key
+//e.g.
+func RangeSlice(slice []int) {
+	for index := range slice {
+		fmt.Println("value: ", slice[index])
+	}
+}
+
+// i and val are all settle down when iteration starts, no matter what changed to the original slice
+func Iterator() {
+	v := []int{1, 2, 3}
+	for i, val := range v {
+		v = append(v, i)
+		v[2] = 20
+		fmt.Println("----val---", val)
+	}
+	fmt.Println("----v---", v)
 }
