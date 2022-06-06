@@ -3,6 +3,8 @@ package main
 import "fmt"
 
 func main() {
+
+	fmt.Println("---------start---------")
 	slice := []int{1, 2, 3}
 	m := map[int]int{}
 	for k := range slice {
@@ -38,4 +40,16 @@ func Iterator() {
 		fmt.Println("----val---", val)
 	}
 	fmt.Println("----v---", v)
+}
+
+func CheckSliceKeyExist() {
+	m1 := map[int]int{}
+	m1[1] = 2
+	fmt.Println(m1[23])
+	if v, ok := m1[22]; ok {
+		fmt.Println("---------key exist---------", v)
+
+	} else {
+		fmt.Println("---------key not exist---------")
+	}
 }
