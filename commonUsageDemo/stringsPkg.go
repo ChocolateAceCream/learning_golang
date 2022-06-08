@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"reflect"
 	"strings"
 	"unicode/utf8"
 )
@@ -52,4 +53,23 @@ func main() {
 	fmt.Println(strings.Replace(str, "aa", "AA", 2))
 	fmt.Println(strings.Replace(str, "aa", "AA", -1))
 	fmt.Println(strings.Replace(str, "", "AA", -1))
+
+	fmt.Println("------strings.iteration-------------")
+	str = "   abcedasdg"
+	//iterate by Unicode
+	fmt.Println("------Unicode iteration-------------")
+	for i, ch := range str {
+		fmt.Println("i: ", string(ch))
+		typ := reflect.TypeOf(ch).Kind()
+		typ2 := reflect.TypeOf(str[i]).Kind()
+		fmt.Println(typ)
+		fmt.Println(typ2)
+	}
+	//iterate by utf-8
+	fmt.Println("------utf-8 iteration-------------")
+	for i := 0; i < len(str); i++ {
+		typ := reflect.TypeOf(str[i]).Kind()
+		fmt.Println(typ)
+	}
+
 }

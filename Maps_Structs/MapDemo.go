@@ -54,6 +54,21 @@ func main() {
 	m3["add"] = 321
 	fmt.Println("m2 is:", m2)
 	fmt.Println("m3 is:", m3)
+
+	str := "hello world"
+	m4 := make(map[uint8]int)
+	for i := 0; i < len(str); i++ {
+		fmt.Println("i: ", string(str[i]))
+		m4[str[i]] = i
+	}
+	fmt.Println("m4 is: ", m4)
+	m5 := make(map[rune]int)
+	for idx, val := range str {
+		fmt.Println("m5 i: ", string(val))
+		m5[val] = idx
+	}
+	fmt.Println("m5 is: ", m5)
+
 }
 
 // number of iterations are not fixed since map store data using hash table, the key-value pair are randomly inserted, so dynamically change the targe might or might not affect the number of iterations.
@@ -62,6 +77,7 @@ func MapIterator() {
 		"CA": "12",
 		"BS": "32",
 	}
+	delete(mapper, "CA")
 	for key, val := range mapper {
 		fmt.Printf("key: %s, val: %s\n", key, val)
 		mapper[val] = key
