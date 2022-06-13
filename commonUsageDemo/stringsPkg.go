@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"reflect"
+	"strconv"
 	"strings"
 	"unicode/utf8"
 )
@@ -72,4 +73,13 @@ func main() {
 		fmt.Println(typ)
 	}
 
+	a1, a2, a3 := "", "1", "2"
+	a4 := a1 + a2 + a3
+	fmt.Println(a4)
+
+	//convert numeric string to int
+	fmt.Println("------convert numeric string to int-------------")
+	strVar := "100"
+	intVar, err := strconv.ParseInt(strVar, 0, 64)
+	fmt.Println(intVar, err, reflect.TypeOf(intVar))
 }
