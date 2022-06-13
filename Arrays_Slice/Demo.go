@@ -1,6 +1,8 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func main() {
 
@@ -102,4 +104,8 @@ func main() {
 	fmt.Printf("middle: %v, %T\n", middle, middle)
 	fmt.Printf("t: %v, %T\n", t, t)
 
+	//string iteration
+	for i := '1'; i < '9'; i++ {
+		fmt.Println(i)
+	}
 }
