@@ -73,4 +73,38 @@ func main() {
 	fmt.Println("\n------rune-----------")
 	s3 := '⌘'
 	fmt.Printf("%v, %T\n", s3, s3)
+
+	b1 := []byte("1,2,3,4,5")
+	for i := 0; i < len(b1); i++ {
+		if b1[i] != ',' {
+			fmt.Println(string(b1[i]))
+		}
+	}
+
+	s5 := "21"
+	fmt.Println("convertor: ", convertor(s5))
+
+	s6 := "1"
+	count := int(s6)
+	fmt.Println("count: ", count)
+
+}
+
+func convertor(s string) string {
+	var r []uint8
+	var count = '0'
+	curr := s[0]
+	for i := 0; i < len(s); i++ {
+		if curr == s[i] {
+			count++
+		} else {
+			r = append(r, uint8(count), curr)
+			count = '1'
+			curr = s[i]
+		}
+	}
+	if count > 0 {
+		r = append(r, uint8(count), curr)
+	}
+	return string(r)
 }
