@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"math"
+	"reflect"
 	"strconv"
 )
 
@@ -85,8 +87,15 @@ func main() {
 	fmt.Println("convertor: ", convertor(s5))
 
 	s6 := "1"
-	count := int(s6)
+	count, err := strconv.ParseInt(s6, 10, 64)
 	fmt.Println("count: ", count)
+
+	i = 123
+	i *= -1
+	fmt.Println("type: ", reflect.TypeOf(i))
+	i = int(math.Abs(float64(i)))
+	fmt.Println("i: ", i)
+	fmt.Println("type: ", reflect.TypeOf(i))
 
 }
 
