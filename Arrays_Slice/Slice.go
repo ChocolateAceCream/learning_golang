@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"reflect"
 	"sort"
 )
@@ -78,7 +79,12 @@ func sortSlice() {
 
 func pointerDemo() {
 	fmt.Println("---------pointerDemo---------")
+	tmp2 := make([]int, 10)
+	fmt.Println("tmp2: ", tmp2)
+	fmt.Println("tmp2 length: ", len(tmp2))
 	tmp := make([]int, 0)
+	fmt.Println("tmp: ", tmp)
+	fmt.Println("tmp length: ", len(tmp))
 	fmt.Println("type: ", reflect.TypeOf(tmp))
 	ptr := &tmp
 	fmt.Println("type: ", reflect.TypeOf(ptr))
@@ -94,4 +100,94 @@ func pointerDemo() {
 	// remove last two elements
 	*ptr = (*ptr)[:len(*ptr)-2]
 	fmt.Println("*ptr: ", *ptr)
+
+	fmt.Println("-----------SortAndRemoveDup-----------")
+	s := []int{61}
+	s = SortAndRemoveDup(s)
+	fmt.Println("s: ", s)
+
+	s4 := []int{1, 2, 3, 4}
+	s4 = s4[:len(s4)-1]
+	fmt.Println("s4: ", s4)
+
+	fmt.Println("-----------FilterDemo-----------")
+	s5 := []int{3, 2, 1, 4, 4, -1, 1}
+	fmt.Println("s5 after filter: ", FilterDemo(s5))
+	s5 = []int{2, 1, 4, 2, 4, 4, -1, 6}
+	fmt.Println(firstMissingPositive(s5))
+
+}
+
+func SortAndRemoveDup(s []int) []int {
+	sort.Ints(s)
+	prev := 1
+	for curr := 1; curr < len(s); curr++ {
+		if s[curr-1] != s[curr] {
+			s[prev] = s[curr]
+			prev++
+		}
+	}
+	return s[:prev]
+}
+
+func FilterDemo(s []int) []int {
+	tmp := make([]int, 0)
+	for _, v := range s {
+		if v > 0 {
+			fmt.Println("v: ", v)
+			if len(tmp) > 0 {
+				for i := 0; i < len(tmp); i++ {
+					if v < tmp[i] {
+						tmp = append(tmp[:i+1], tmp[i:]...)
+						tmp[i] = v
+						break
+					} else if v == tmp[i] {
+						break
+					} else {
+						if i == len(tmp)-1 {
+							tmp = append(tmp, v)
+							break
+						}
+					}
+				}
+			} else {
+				tmp = append(tmp, v)
+			}
+		}
+	}
+	return tmp
+}
+
+func firstMissingPositive(nums []int) int {
+	sz := len(nums)
+
+	for i := 0; i < sz; i++ {
+		// ensure no negative
+		if nums[i] <= 0 {
+			nums[i] = sz + 1
+		}
+	}
+	fmt.Println("nums: ", nums)
+
+	for i := 0; i < sz; i++ {
+		n := int(math.Abs(float64(nums[i])))
+
+		if n > sz {
+			continue
+		}
+
+		if nums[n-1] > 0 {
+			nums[n-1] *= -1
+		}
+	}
+
+	fmt.Println("nums: ", nums)
+
+	for i := 1; i <= sz; i++ {
+		if nums[i-1] > 0 {
+			return i
+		}
+	}
+
+	return sz + 1
 }
