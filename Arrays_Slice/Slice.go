@@ -5,6 +5,7 @@ import (
 	"math"
 	"reflect"
 	"sort"
+	"strings"
 )
 
 func main() {
@@ -33,6 +34,26 @@ func main() {
 	fmt.Println("---------sort slice demo---------")
 	sortSlice()
 	pointerDemo()
+	RuneDemo()
+	SliceToArrDemo()
+}
+
+func SliceToArrDemo() {
+	fmt.Println("---------SliceToArrDemo---------")
+
+	// need go version >= 1.7
+	//convert slice to array
+	s := make([]byte, 2, 4)
+	fmt.Println("type: ", reflect.TypeOf(s))
+	fmt.Println(s)
+	s0 := (*[2]byte)(s) // s0 != nil
+	fmt.Println(s0)
+	fmt.Println("type: ", reflect.TypeOf(s0))
+	s3 := [3]uint8{1, 2, 3}
+	fmt.Println("type: ", reflect.TypeOf(&s3))
+	// s1 := (*[1]byte)(s[1:]) // &s1[0] == &s[1]
+	// s2 := (*[2]byte)(s)     // &s2[0] == &s[0]
+
 }
 
 // when slice contains large potion of data and value is of type string, try to use slice[key] to retrieve the value in loop, because every loop iteration will re-assign to the value and key
@@ -116,6 +137,17 @@ func pointerDemo() {
 	s5 = []int{2, 1, 4, 2, 4, 4, -1, 6}
 	fmt.Println(firstMissingPositive(s5))
 
+	fmt.Println("-----------iteration demo-----------")
+	// keep caution when append slice to a slice, because slice store pointers, not value, so once the appended slice is changed, it will also affect the original slice
+	ss := []int{1, 2, 3, 4}
+	fmt.Println("ss: ", ss[:len(ss)-1])
+	for i := 0; i < len(ss); i++ {
+		c := make([]int, len(ss))
+		copy(c, ss)
+		c = append(c[:i], c[i+1:]...)
+		fmt.Println(c)
+	}
+
 }
 
 func SortAndRemoveDup(s []int) []int {
@@ -190,4 +222,19 @@ func firstMissingPositive(nums []int) int {
 	}
 
 	return sz + 1
+}
+
+func RuneDemo() {
+	fmt.Println("-----------RuneDemo-----------")
+
+	x := strings.Repeat("0", 10)
+	fmt.Println("x: ", x)
+	r := []rune{}
+
+	fmt.Println("r: ", r)
+
+	for i := 1; i < 10; i++ {
+		r = append(r, rune(i+'0'))
+	}
+	fmt.Println("r: ", string(r))
 }

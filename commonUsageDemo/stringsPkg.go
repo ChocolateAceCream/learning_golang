@@ -82,4 +82,10 @@ func main() {
 	strVar := "100"
 	intVar, err := strconv.ParseInt(strVar, 0, 64)
 	fmt.Println(intVar, err, reflect.TypeOf(intVar))
+
+	fmt.Println("------string repeat-------------")
+	x := "0"
+	fmt.Println(x)
+	x = strings.Repeat(x, 10)
+	fmt.Println(x)
 }
