@@ -9,6 +9,7 @@ package main
 
 import (
 	"fmt"
+	"sort"
 	"strings"
 )
 
@@ -18,6 +19,8 @@ func main() {
 }
 
 func SpecialCaseDemo() {
+	fmt.Println("-------StringSortDemo------")
+	StringSortDemo()
 	fmt.Println("-------SpecialCaseDemo------")
 	s1 := ""
 	s2 := ""
@@ -55,4 +58,13 @@ func stringIterationDemo() {
 	for idx, val := range s {
 		fmt.Printf("idx: %v, value: %v, s[idx]: %v\n", idx, val, s[idx])
 	}
+}
+
+func StringSortDemo() {
+	str := "msaduih"
+	fmt.Println("str before sort:", str)
+	tmp := []byte(str)
+	sort.Slice(tmp, func(a, b int) bool { return tmp[a] < tmp[b] })
+	str = string(tmp)
+	fmt.Println("tmp after sort:", str)
 }

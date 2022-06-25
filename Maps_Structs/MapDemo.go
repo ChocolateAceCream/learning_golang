@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"reflect"
 )
 
 func main() {
@@ -69,6 +70,9 @@ func main() {
 	}
 	fmt.Println("m5 is: ", m5)
 
+	fmt.Println("------ArrayAsMapKeyDemo-----------")
+	ArrayAsMapKeyDemo()
+
 }
 
 // number of iterations are not fixed since map store data using hash table, the key-value pair are randomly inserted, so dynamically change the targe might or might not affect the number of iterations.
@@ -84,4 +88,41 @@ func MapIterator() {
 		mapper[val] = key + val
 	}
 	fmt.Println("----done map iterator---")
+}
+
+func ArrayAsMapKeyDemo() {
+	s1 := [...]int{1, 2, 3}
+	s2 := [...]int{1, 2, 3}
+	s3 := [...]int{2, 2, 3}
+	m1 := map[[3]int]bool{}
+	m1[s1] = true
+	m1[s2] = true
+	m1[s3] = true
+
+	fmt.Println(m1)
+	keys := [][3]int{}
+	for k := range m1 {
+		keys = append(keys, k)
+	}
+	fmt.Println("m1 keys: ", keys)
+}
+
+func EmptyStringAsMapKeyDemo() {
+	fmt.Println("----EmptyStringAsMapKeyDemo---")
+
+	e := ""
+	mm := map[string][]string{}
+	mm[e] = append(mm[e], e)
+	mm[e] = append(mm[e], e)
+	mm[e] = append(mm[e], e)
+	mm["e"] = append(mm["e"], e)
+	mm["e"] = append(mm["e"], e)
+	mm["e"] = append(mm["e"], "")
+	fmt.Println("mm: ", mm[e], reflect.TypeOf(mm[e]), len(mm[e]))
+
+	result := []string{""}
+	fmt.Println(result)
+	fmt.Println(len(result))
+	fmt.Println(len(result[0]))
+
 }
