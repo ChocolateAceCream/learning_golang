@@ -16,6 +16,7 @@ import (
 func main() {
 	SpecialCaseDemo()
 	stringIterationDemo()
+	StringSplitDemo()
 }
 
 func SpecialCaseDemo() {
@@ -67,4 +68,11 @@ func StringSortDemo() {
 	sort.Slice(tmp, func(a, b int) bool { return tmp[a] < tmp[b] })
 	str = string(tmp)
 	fmt.Println("tmp after sort:", str)
+}
+
+func StringSplitDemo() {
+	fmt.Println("-------StringSplitDemo------")
+	s := "Welcome, to the, online portal, of GeeksforGeeks"
+	res1 := strings.Split(s, " ")
+	fmt.Println(res1)
 }

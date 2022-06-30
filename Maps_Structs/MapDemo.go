@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"reflect"
+	"sort"
 )
 
 func main() {
@@ -72,6 +73,7 @@ func main() {
 
 	fmt.Println("------ArrayAsMapKeyDemo-----------")
 	ArrayAsMapKeyDemo()
+	MapOrderByKeyDemo()
 
 }
 
@@ -124,5 +126,24 @@ func EmptyStringAsMapKeyDemo() {
 	fmt.Println(result)
 	fmt.Println(len(result))
 	fmt.Println(len(result[0]))
+
+}
+
+func MapOrderByKeyDemo() {
+	fmt.Println("----Order map by key demo---")
+	m := map[int]int32{}
+	m[144] = 's'
+	m[22] = 'e'
+	m[34] = 'b'
+	m[1] = 's'
+	m[5] = 's'
+	keys := make([]int, 0, len(m))
+	for k := range m {
+		keys = append(keys, k)
+	}
+	sort.Ints(keys)
+	fmt.Println("maps: ", m)
+	fmt.Println("keys: ", keys)
+	fmt.Println("m[0]: ", m[0] == 'a')
 
 }
