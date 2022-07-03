@@ -5,6 +5,7 @@ import (
 	"math"
 	"reflect"
 	"strconv"
+	"strings"
 )
 
 func main() {
@@ -97,6 +98,7 @@ func main() {
 	fmt.Println("i: ", i)
 	fmt.Println("type: ", reflect.TypeOf(i))
 
+	ConvertIntSliceToString()
 }
 
 func convertor(s string) string {
@@ -116,4 +118,12 @@ func convertor(s string) string {
 		r = append(r, uint8(count), curr)
 	}
 	return string(r)
+}
+
+func ConvertIntSliceToString() {
+	fmt.Println("------ConvertIntSliceToString demo-----------")
+	i := []int{1, 2, 3, 4, 5}
+	s := strings.Trim(strings.Join(strings.Fields(fmt.Sprint(i)), ""), "[]")
+	fmt.Println(s)
+
 }
