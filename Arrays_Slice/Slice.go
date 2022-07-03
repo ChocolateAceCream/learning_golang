@@ -36,6 +36,7 @@ func main() {
 	pointerDemo()
 	RuneDemo()
 	SliceToArrDemo()
+	RotateNToFront()
 }
 
 func SliceToArrDemo() {
@@ -237,4 +238,19 @@ func RuneDemo() {
 		r = append(r, rune(i+'0'))
 	}
 	fmt.Println("r: ", string(r))
+}
+
+func RotateNToFront() {
+	fmt.Println("-----------RotateNToFront-----------")
+	//e.g [1,2,3,4,5,6], rotate 4 to front => [4,1,2,3,5,6]
+	s := []int{1, 2, 3, 4, 5, 6}
+	start := 2
+	end := 4
+	tmp := s[end]
+	for i := end; i > start; i-- {
+		s[i] = s[i-1]
+	}
+	s[start] = tmp
+	fmt.Println(s)
+
 }
