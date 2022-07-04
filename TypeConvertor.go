@@ -87,10 +87,6 @@ func main() {
 	s5 := "21"
 	fmt.Println("convertor: ", convertor(s5))
 
-	s6 := "1"
-	count, err := strconv.ParseInt(s6, 10, 64)
-	fmt.Println("count: ", count)
-
 	i = 123
 	i *= -1
 	fmt.Println("type: ", reflect.TypeOf(i))
@@ -99,6 +95,7 @@ func main() {
 	fmt.Println("type: ", reflect.TypeOf(i))
 
 	ConvertIntSliceToString()
+	ConvertStringBinaryToBase2Int64()
 }
 
 func convertor(s string) string {
@@ -125,5 +122,14 @@ func ConvertIntSliceToString() {
 	i := []int{1, 2, 3, 4, 5}
 	s := strings.Trim(strings.Join(strings.Fields(fmt.Sprint(i)), ""), "[]")
 	fmt.Println(s)
+}
 
+// limitation: be careful when value is over 64 byte
+func ConvertStringBinaryToBase2Int64() {
+	fmt.Println("------ConvertStringBinaryToBase2Int64 demo-----------")
+	s := "101010101"
+	fmt.Println("s: ", s)
+	r, _ := strconv.ParseInt(s, 2, 64)
+	fmt.Println("after convert to base 2 Int64: ", r)
+	fmt.Println("print binary form: ", strconv.FormatInt(r, 2))
 }

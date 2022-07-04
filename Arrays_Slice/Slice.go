@@ -37,6 +37,7 @@ func main() {
 	RuneDemo()
 	SliceToArrDemo()
 	RotateNToFront()
+	ReverseSliceDemo()
 }
 
 func SliceToArrDemo() {
@@ -253,4 +254,17 @@ func RotateNToFront() {
 	s[start] = tmp
 	fmt.Println(s)
 
+}
+
+func ReverseSliceDemo() {
+	fmt.Println("-------------reverse slice demo-------------")
+	s := []int{1,5,51,5,5125}
+	fmt.Println("s: ", s)
+	ReverseSlice(s)
+	fmt.Println("s after reverse: ", s)
+}
+func ReverseSlice[T comparable](s []T) {
+    sort.SliceStable(s, func(i, j int) bool {
+        return i > j
+    })
 }

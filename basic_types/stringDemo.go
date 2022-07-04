@@ -17,6 +17,7 @@ func main() {
 	SpecialCaseDemo()
 	stringIterationDemo()
 	StringSplitDemo()
+	StringCountRepeatCharDemo()
 }
 
 func SpecialCaseDemo() {
@@ -75,4 +76,12 @@ func StringSplitDemo() {
 	s := "Welcome, to the, online portal, of GeeksforGeeks"
 	res1 := strings.Split(s, " ")
 	fmt.Println(res1)
+}
+
+func StringCountRepeatCharDemo() {
+	fmt.Println("-------StringCountRepeatCharDemo------")
+	s := "-"
+	res1 := strings.Count(s[1:], "1")
+	fmt.Println("s: ", s[1:])
+	fmt.Println("how many 1 in s: ", res1)
 }
