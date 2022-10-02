@@ -38,6 +38,8 @@ func main() {
 	SliceToArrDemo()
 	RotateNToFront()
 	ReverseSliceDemo()
+	RemoveElmWhileLoopDemo()
+	IterateOver2DSlice()
 }
 
 func SliceToArrDemo() {
@@ -258,13 +260,43 @@ func RotateNToFront() {
 
 func ReverseSliceDemo() {
 	fmt.Println("-------------reverse slice demo-------------")
-	s := []int{1,5,51,5,5125}
+	s := []int{1, 5, 51, 5, 5125}
 	fmt.Println("s: ", s)
 	ReverseSlice(s)
 	fmt.Println("s after reverse: ", s)
 }
 func ReverseSlice[T comparable](s []T) {
-    sort.SliceStable(s, func(i, j int) bool {
-        return i > j
-    })
+	sort.SliceStable(s, func(i, j int) bool {
+		return i > j
+	})
+}
+
+func RemoveElmWhileLoopDemo() {
+	fmt.Println("---------remove element while range through a slice demo---------")
+	s := []int{5, 12, 7, 4, 8, 6, 2, 9}
+	fmt.Println("s before: ", s)
+	i := 0
+	for _, val := range s {
+		if val > 5 { //if element is valid
+			s[i] = val
+			i++
+		}
+	}
+	s = s[:i]
+	fmt.Println("s after: ", s)
+
+}
+
+func IterateOver2DSlice() {
+	fmt.Println("-------IterateOver2DSlice-------")
+	a := [][]int{[]int{1, 2}}
+	for i := 0; i < 2; i++ {
+		for _, v := range a {
+			t := make([]int, len(v))
+			copy(t, v)
+			t = append(t, i)
+			a = append(a, t)
+		}
+	}
+	fmt.Println("a: ", a)
 }

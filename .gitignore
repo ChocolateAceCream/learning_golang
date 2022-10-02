@@ -4,3 +4,4 @@ gin.log
 gRPC/*
 gin/services/config.json
 .vscode/launch.json
+Main.go

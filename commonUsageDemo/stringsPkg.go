@@ -9,6 +9,8 @@ import (
 	"unicode/utf8"
 )
 
+const doubleQuoteSpecialChars = "\\\n\r\"!$`"
+
 func main() {
 	str := "ABCDEFAGHIJKLMNOPQRST"
 	fmt.Println(str[1:2])
@@ -88,4 +90,32 @@ func main() {
 	fmt.Println(x)
 	x = strings.Repeat(x, 10)
 	fmt.Println(x)
+
+	doubleQuoteEscapeDemo()
+}
+
+func doubleQuoteEscapeDemo() {
+	fmt.Println("------sdoubleQuoteEscapeDemo-------------")
+	line := "asdfasdf"
+	k := []byte(line)
+	k = append(k, '!')
+	line = string(k)
+	r := doubleQuoteEscape(line)
+	fmt.Println(r)
+
+}
+
+func doubleQuoteEscape(line string) string {
+	for _, c := range doubleQuoteSpecialChars {
+		fmt.Println("c: ", string(c))
+		toReplace := "\\" + string(c)
+		if c == '\n' {
+			toReplace = `\n`
+		}
+		if c == '\r' {
+			toReplace = `\r`
+		}
+		line = strings.Replace(line, string(c), toReplace, -1)
+	}
+	return line
 }

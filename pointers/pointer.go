@@ -47,8 +47,31 @@ func main() {
 	ms3 := &myStruct{foo: 40}
 	fmt.Println(ms3.foo)
 
+	PointerAsIntDemo()
+
 }
 
 type myStruct struct {
 	foo int
+}
+
+/* special usage of pointer:
+When deal with possible nil value a func params, because you cannot pass nil value directly into the func (type constrain),
+alternatively, you can pass the pointer that point to that nil value
+*/
+
+func PointerAsIntDemo() {
+	fmt.Println("-------PointerAsIntDemo----------")
+	foo := 123
+	PassNilAsIntParam(&foo)
+	PassNilAsIntParam(nil)
+
+}
+
+func PassNilAsIntParam(a *int) {
+	if a == nil {
+		fmt.Println("pointer is nil")
+	} else {
+		fmt.Println(*a)
+	}
 }
