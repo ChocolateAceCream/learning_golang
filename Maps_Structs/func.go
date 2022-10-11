@@ -52,4 +52,21 @@ func main() {
 	fmt.Println(c.say("english"))
 	c = ByeFunc(chinese)
 	fmt.Println(c.say("chinese"))
+	VarFuncDemo()
+}
+
+/*
+var func can access to its outer scope variables, but if two var share the same name,
+var func will use the one inside var func.
+*/
+func VarFuncDemo() {
+	fmt.Println("-----------Use func as var demo-----------")
+	var myFunc func(b int)
+	a := 1
+	myFunc = func(b int) {
+		// if defined a := 2 here , then printed out a will be 3
+		a = a + b
+	}
+	myFunc(2)
+	fmt.Println(a)
 }

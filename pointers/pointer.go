@@ -48,6 +48,7 @@ func main() {
 	fmt.Println(ms3.foo)
 
 	PointerAsIntDemo()
+	DoublePointerDemo()
 
 }
 
@@ -65,7 +66,8 @@ func PointerAsIntDemo() {
 	foo := 123
 	PassNilAsIntParam(&foo)
 	PassNilAsIntParam(nil)
-
+	var a int
+	PassNilAsIntParam(&a)
 }
 
 func PassNilAsIntParam(a *int) {
@@ -74,4 +76,15 @@ func PassNilAsIntParam(a *int) {
 	} else {
 		fmt.Println(*a)
 	}
+}
+
+func DoublePointerDemo() {
+	fmt.Println("-------DoublePointerDemo----------")
+	var a *int
+	DoublePointerFunc(&a)
+}
+
+func DoublePointerFunc(a **int) {
+	fmt.Println("a: ", a)
+	fmt.Println("*a", *a)
 }
