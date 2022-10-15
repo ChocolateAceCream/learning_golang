@@ -132,6 +132,7 @@ type Friend2 struct {
 }
 
 func Demo3() {
+	fmt.Println("---------Demo3-----------------")
 	dataset := []string{`
     { 
       "type": "friend1",
@@ -185,6 +186,7 @@ type P4 struct {
 }
 
 func Demo4() {
+	fmt.Println("---------Demo4-----------------")
 	dataset := `
     { 
       "name": "dj",
@@ -311,10 +313,10 @@ func CustomizedDecoder() {
 
 // mapstructure.go
 type DecoderConfig struct {
-	ErrorUnused      bool      // return error if any key in source are unused
-	ZeroFields       bool      // applied when decode struct to map, if true then empty entire target map, if false, then merge into the target map
-	WeaklyTypedInput bool      // used to implement WeakDecode/WeakDecodeMetadata
-	Metadata         *Metadata // if not nil then collect meta data
-	Result           interface{}
-	TagName          string // customize tag name, default is mapstructure
+	ErrorUnused      bool // return error if any key in source are unused
+	ZeroFields       bool // applied when decode struct to map, if true then empty entire target map, if false, then merge into the target map
+	WeaklyTypedInput bool // used to implement WeakDecode/WeakDecodeMetadata
+	// Metadata         *Metadata // if not nil then collect meta data
+	Result  interface{}
+	TagName string // customize tag name, default is mapstructure
 }
