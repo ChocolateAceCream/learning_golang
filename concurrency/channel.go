@@ -1,4 +1,4 @@
-package main
+package Concurrency
 
 import "fmt"
 
@@ -9,7 +9,7 @@ func printHello(ch chan int) {
 	ch <- 2
 }
 
-func main() {
+func channel() {
 	//make a channel. You need to use the make function to create channels.
 	//channels can also be buffered where you can specify size. eg: ch := make(chan int, 2)
 	//that is out of the scope of this post.
