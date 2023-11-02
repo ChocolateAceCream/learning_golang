@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func main() {
+func demo() {
 	var i int = 32
 	var j float32 = float32(i)
 	fmt.Printf("%v, %f, %T", j, j, j)

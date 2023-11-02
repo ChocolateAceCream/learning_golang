@@ -10,8 +10,10 @@ package main
 import "fmt"
 
 func main() {
+	a := 3
+	var b [a][a]int
+	fmt.Println("---------b-----", b)
 	x := [][]int{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}
-	y := make([][]int)
 	fmt.Println("len(x): ", len(x)) // [[1,2,3],[4,5,6]]
 	fmt.Println(x[0:2])             // [[1,2,3],[4,5,6]]
 	fmt.Println(x[0:2][0])          // [1,2,3]
