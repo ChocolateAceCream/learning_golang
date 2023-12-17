@@ -1,6 +1,10 @@
 go 1.18
 
 use (
-  ./benchDemo
-  ./concurrency
+	.
+	./benchDemo
+	./concurrency
+	./db
+	./recoverAndPanic
+	./packages_demo
 )

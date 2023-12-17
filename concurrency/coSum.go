@@ -40,15 +40,17 @@ func sumCalculator(cbChannel chan int, incomeChan chan int) {
 	rand.Seed(time.Now().UnixNano())
 	sum := 0
 	for i := range incomeChan {
+		time.Sleep(1000)
 		sum += i
 	}
 	cbChannel <- sum
 	wg5.Done()
 }
 
-func singleTreadSum(total int, threads int) int {
+func singleTreadSum(total int) int {
 	sum := 0
-	for i := 0; i < 200000000; i++ {
+	for i := 0; i < total; i++ {
+		time.Sleep(1000)
 		sum += i
 	}
 	return sum
