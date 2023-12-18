@@ -7,16 +7,11 @@
 度⼩于等于【3000】。
 */
 
-package main
+package Alg
 
 import (
-	"fmt"
 	"strings"
 )
-
-func main() {
-	fmt.Println(isUniqueString("asdasdff"))
-}
 
 func isUniqueString(str string) bool {
 	if strings.Count(str, "") > 3000 {

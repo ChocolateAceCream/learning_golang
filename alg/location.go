@@ -6,7 +6,7 @@
 个等于指令 RLFLF。 问最后机器⼈的坐标是多少？
 */
 
-package main
+package Alg
 
 import (
 	"fmt"
@@ -20,7 +20,7 @@ const (
 	Bottom
 )
 
-func main() {
+func Location() {
 	x, y, z := move("R2(LF)", 0, 0, Top)
 	fmt.Printf("(%v, %v), facing %v", x, y, z)
 }

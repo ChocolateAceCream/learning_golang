@@ -5,16 +5,11 @@
 * @description: function to calculate factorial
  */
 
-package main
+package Alg
 
 import (
-	"fmt"
 	"math/big"
 )
-
-func main() {
-	fmt.Println(factorial(4))
-}
 
 func factorial(n int64) *big.Int {
 	fac := new(big.Int)

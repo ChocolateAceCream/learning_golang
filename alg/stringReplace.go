@@ -6,26 +6,25 @@
 写的英⽂字⺟组成】。 给定⼀个string为原始的串，返回替换后的string。
 */
 
-package main
+package Alg
 
 import (
-	"fmt"
 	"strings"
 	"unicode"
 )
 
-func main() {
-	s := "aaspkop SA AS AFA A AFA sd fa sf asdfasd fa sf asdfasd fa sf asdfasd fa sf asdfasd fa sf asdfasd fa sf asdfasd fa sf asdfasd fa sf asdfa"
+// func main() {
+// 	s := "aaspkop SA AS AFA A AFA sd fa sf asdfasd fa sf asdfasd fa sf asdfasd fa sf asdfasd fa sf asdfasd fa sf asdfasd fa sf asdfasd fa sf asdfa"
 
-	for i := 0; i < 10; i++ {
-		r, str := replaceString(s)
-		if r {
-			fmt.Println(str)
-		} else {
-			fmt.Println("illegal string")
-		}
-	}
-}
+// 	for i := 0; i < 10; i++ {
+// 		r, str := replaceString(s)
+// 		if r {
+// 			fmt.Println(str)
+// 		} else {
+// 			fmt.Println("illegal string")
+// 		}
+// 	}
+// }
 
 // func replaceString(str string) (bool, string) {
 // 	s := strings.Split(str, "")

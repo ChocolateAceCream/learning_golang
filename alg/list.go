@@ -1,4 +1,4 @@
-package main
+package Alg
 
 import "fmt"
 
@@ -90,7 +90,7 @@ func (l *List) RemoveBack() {
 	}
 }
 
-func main() {
+func Runner() {
 	l := initList()
 	l.AddBack(1)
 	l.AddBack(3)

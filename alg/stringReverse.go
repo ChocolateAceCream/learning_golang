@@ -6,15 +6,13 @@
 给定⼀个string，请返回⼀个string，为翻转后的字符串。保证字符串的⻓度⼩于等于
 5000。
 */
-package main
+package Alg
 
-import "fmt"
-
-func main() {
-	if str, r := reverse("asdf123"); r {
-		fmt.Println(str)
-	}
-}
+// func main() {
+// 	if str, r := reverse("asdf123"); r {
+// 		fmt.Println(str)
+// 	}
+// }
 
 func reverse(str string) (string, bool) {
 	length := len(str)

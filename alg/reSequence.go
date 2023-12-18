@@ -1,12 +1,4 @@
-package main
-
-import "fmt"
-
-func main() {
-	str1 := "asdfg"
-	str2 := "gfdsa"
-	fmt.Println(reSequence(str1, str2))
-}
+package Alg
 
 func reSequence(s1, s2 string) bool {
 	m1 := make(map[string]int)

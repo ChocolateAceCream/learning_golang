@@ -4,7 +4,7 @@
 12AB34CD56EF78GH910IJ1112KL1314MN1516OP1718QR1920ST2122UV2324W
 */
 
-package main
+package Alg
 
 import (
 	"fmt"
@@ -14,7 +14,7 @@ import (
 
 var wg = sync.WaitGroup{}
 
-func main() {
+func TwoChannel() {
 	letter, number := make(chan bool), make(chan bool)
 	go func() {
 		i := 1
