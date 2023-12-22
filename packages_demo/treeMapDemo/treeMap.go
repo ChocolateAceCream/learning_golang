@@ -15,7 +15,7 @@ import (
 )
 
 func Comparator(a, b interface{}) int {
-	return a.(int) - b.(int)
+	return a.(int) - b.(int) // so this treeMap is ascending
 }
 
 func Init() {
@@ -30,6 +30,7 @@ func Init() {
 		v := i.Value()
 		fmt.Println(k, v)
 	}
-	v, f := tm.Get(5)
+	tm.Put(2, 12)
+	v, f := tm.Get(2)
 	fmt.Println(v, f)
 }
