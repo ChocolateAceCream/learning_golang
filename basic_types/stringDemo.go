@@ -18,6 +18,8 @@ func main() {
 	stringIterationDemo()
 	StringSplitDemo()
 	StringCountRepeatCharDemo()
+	StringRepeatDemo()
+	StringSliceSortDemo()
 }
 
 func SpecialCaseDemo() {
@@ -84,4 +86,18 @@ func StringCountRepeatCharDemo() {
 	res1 := strings.Count(s[1:], "1")
 	fmt.Println("s: ", s[1:])
 	fmt.Println("how many 1 in s: ", res1)
+}
+
+func StringRepeatDemo() {
+	fmt.Println("-------StringRepeatDemo------")
+	s := "a"
+	s2 := strings.Repeat(s, 3)
+	fmt.Println(s2)
+}
+
+func StringSliceSortDemo() {
+	fmt.Println("-------StringSliceSortDemo------")
+	s := []string{"a", "c", "b"}
+	sort.Strings(s)
+	fmt.Println(s)
 }

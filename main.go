@@ -1,8 +1,13 @@
 package main
 
-import "Packages_demo"
+import (
+	"fmt"
+)
 
 func main() {
-	// fmt.Println("---main---")
-	Packages_demo.SortSearchDemo()
+	s := "123123"
+	fmt.Println(s[3:])
+	for v := range 12 {
+		fmt.Println(v)
+	}
 }

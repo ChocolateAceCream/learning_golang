@@ -20,3 +20,9 @@ func SortSearchDemo() {
 	})
 	fmt.Println("first element that greater than 44 in sorted arr is: ", arr[result])
 }
+
+func SortByDemo() {
+	arr := []int{41, 63, 12, 42, 77, 11}
+	arr = sort.Ints(arr)
+	fmt.Println(arr)
+}
