@@ -23,6 +23,30 @@ func SortSearchDemo() {
 
 func SortByDemo() {
 	arr := []int{41, 63, 12, 42, 77, 11}
-	arr = sort.Ints(arr)
+	sort.Ints(arr)
 	fmt.Println(arr)
+}
+
+type Person struct {
+	Age  int
+	Name string
+}
+
+type SortablePerson []Person
+
+func (s SortablePerson) Less(i, j int) bool {
+	return s[i].Age < s[j].Age
+}
+func (s SortablePerson) Swap(i, j int) {
+	if s[i].Age < s[j].Age {
+		s[i], s[j] = s[j], s[i]
+	}
+}
+func (s SortablePerson) Len() int {
+	return len(s)
+}
+
+func SortByKeyDemo(p []Person) {
+	sort.Sort(SortablePerson(p))
+	fmt.Println(p)
 }
