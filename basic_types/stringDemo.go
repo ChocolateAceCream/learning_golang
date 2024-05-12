@@ -9,6 +9,7 @@ package main
 
 import (
 	"fmt"
+	"reflect"
 	"sort"
 	"strings"
 )
@@ -100,4 +101,37 @@ func StringSliceSortDemo() {
 	s := []string{"a", "c", "b"}
 	sort.Strings(s)
 	fmt.Println(s)
+}
+
+func StringBuilder() string {
+	builder := strings.Builder{}
+	for i := 0; i < 100000; i++ {
+		builder.WriteString("data ")
+		builder.Write([]byte{'1', '2'})
+		builder.WriteByte('3')
+
+	}
+	return builder.String()
+}
+func StringConcatenation() string {
+	s := ""
+	for i := 0; i < 100000; i++ {
+		s += "data "
+	}
+	return s
+}
+
+func BitOperation() {
+	var a uint8 = 1
+	a = a << 1 // shift a to left 1 time
+	b := a << 2
+	fmt.Println(a)
+	fmt.Println(b)
+	c := 'c'
+	fmt.Println(reflect.TypeOf(c))
+	m := map[int32]int{}
+	for i := 'a'; i <= 'z'; i++ {
+		m[i] = 1 << (i - 'a')
+	}
+	fmt.Println(m)
 }
