@@ -8,4 +8,5 @@ use (
 	./db
 	./packages_demo
 	./recoverAndPanic
+	./packages_demo/faker
 )

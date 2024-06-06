@@ -15,6 +15,10 @@ func randomFloat(min, max float64) float64 {
 	return min + rand.Float64()*(max-min)
 }
 
+func randomIndex(l int) int {
+	return rand.Intn(l)
+}
+
 func main() {
 	uuid := randomID()
 	fmt.Println(uuid)
