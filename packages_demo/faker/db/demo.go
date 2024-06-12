@@ -74,5 +74,7 @@ func Insert(myDB *sql.DB, users []User) error {
 	}
 
 	fmt.Println("Records inserted successfully")
+	fmt.Println("----------done Insert-----------")
+
 	return nil
 }

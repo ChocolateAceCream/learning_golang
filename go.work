@@ -9,4 +9,5 @@ use (
 	./packages_demo
 	./recoverAndPanic
 	./packages_demo/faker
+	./packages_demo/mongo
 )

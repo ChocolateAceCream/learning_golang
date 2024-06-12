@@ -9,14 +9,15 @@ import (
 	"os"
 	"strconv"
 	"sync"
+	"time"
 
 	"github.com/ChocolateAceCream/faker-demo/db"
 	"github.com/jaswdr/faker/v2"
 )
 
-var wg sync.WaitGroup
-
 func main() {
+	var wg sync.WaitGroup
+	start := time.Now()
 	fmt.Println("---")
 	fake := faker.New()
 	fmt.Println(fake.Person().Name())
@@ -45,11 +46,35 @@ func main() {
 	if err != nil {
 		fmt.Println("fail to create demo table", err)
 	}
-	badRecordIDs, err := ReadUserData(myDB, filename, 100)
+
+	pool := make(chan []db.User, 10)
+	results := make(chan int)
+	for i := 1; i <= 10; i++ {
+		wg.Add(1)
+		go Worker(pool, results, myDB, &wg)
+	}
+	badRecordIDs, err := ReadUserData(myDB, filename, 100, pool)
+	close(pool)
+
+	close(results)
+	wg.Wait()
+
+	// close(pool)
+
 	if err != nil {
 		fmt.Println(badRecordIDs)
 	}
+	duration := time.Since(start)
+	fmt.Println(duration)
 	// defer GlobalDB.Close()
+}
+
+func Worker(jobs <-chan []db.User, badRecords chan<- int, myDB *sql.DB, wg *sync.WaitGroup) {
+	defer wg.Done()
+	for j := range jobs {
+		fmt.Println("------------jobs--------------", j)
+		db.Insert(myDB, j)
+	}
 }
 
 func InitFileData(file *os.File, RecordCount int) error {
@@ -73,7 +98,7 @@ func InitFileData(file *os.File, RecordCount int) error {
 	return nil
 }
 
-func ReadUserData(myDB *sql.DB, filename string, batchSize int) (badRecords []int, err error) {
+func ReadUserData(myDB *sql.DB, filename string, batchSize int, pool chan []db.User) (badRecords []int, err error) {
 	file, err := os.Open(filename)
 	if err != nil {
 		return badRecords, fmt.Errorf("failed to open file: %w", err)
@@ -116,32 +141,18 @@ func ReadUserData(myDB *sql.DB, filename string, batchSize int) (badRecords []in
 			Address: address,
 		}
 		users = append(users, user)
-		fmt.Println(user)
 		fmt.Println(len(users))
 		if count%batchSize == 0 {
-			wg.Add(1)
-			go func() {
-
-				err = db.Insert(myDB, users)
-				if err != nil {
-					for _, u := range users {
-						badRecords = append(badRecords, u.ID)
-					}
-				}
-				wg.Done()
-			}()
-
+			pool <- users
 			users = []db.User{}
 		}
 	}
+	fmt.Println("------left over---------")
+
 	if len(users) > 0 {
-		err = db.Insert(myDB, users)
-		if err != nil {
-			for _, u := range users {
-				badRecords = append(badRecords, u.ID)
-			}
-		}
+		pool <- users
 	}
-	wg.Wait()
+	fmt.Println("------done reading---------")
+
 	return badRecords, err
 }
