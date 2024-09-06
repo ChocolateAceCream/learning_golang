@@ -25,7 +25,7 @@ func (s Subject) Update() {
 	}
 }
 
-func main() {
+func ObserverDemo() {
 	s := new(Subject)
 	s.Context = "aaa"
 	r1 := new(Reader)
@@ -40,5 +40,4 @@ func main() {
 	s.Update()
 	s.Context = "bbb"
 	s.Update()
-
 }
