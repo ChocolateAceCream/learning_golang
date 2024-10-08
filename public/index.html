@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Server Sent Event</title>
+</head>
+
+<body>
+  <div class="event-data"></div>
+</body>
+
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+  // EventSource object of javascript listens the streaming events from our go server and prints the message.
+  const es = new EventSource('/stream')
+  console.log('---useEffect---', es)
+  // Whenever the connection is established between the server and the client we'll get notified
+  es.onopen = (e) => console.log('>>> Connection opened!', e)
+  // Made a mistake, or something bad happened on the server? We get notified here
+  es.onerror = (e) => console.log('ERROR!', e)
+  // This is where we get the messages. The event is an object and we're interested in its `data` property
+  es.onmessage = (e) => {
+    console.log('>>>', e.data)
+  }
+</script>
+
+</html>

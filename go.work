@@ -1,4 +1,4 @@
-go 1.22.0
+go 1.23.0
 
 use (
 	.
@@ -6,6 +6,7 @@ use (
 	./concurrency
 	./connectionpool
 	./db
+	./time_wheel
 	./packages_demo
 	./recoverAndPanic
 	./packages_demo/faker
