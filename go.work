@@ -12,4 +12,5 @@ use (
 	./packages_demo/faker
 	./packages_demo/mongo
 	./cache
+	./jwt
 )
